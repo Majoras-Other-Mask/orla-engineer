@@ -12,9 +12,9 @@ export const viewport: Viewport = {
 }
 
 export const metadata: Metadata = {
-  title: 'Nim - Personal website template',
+  title: 'Orla Gotthelf | Engineer',
   description:
-    'Nim is a free and open-source personal website template built with Next.js 15, React 19 and Motion-Primitives.',
+    'Mechanical Engineer | Robotics & Mechatronics Specialist | Experienced in R&D, Control Systems, Python, and Engineering Education',
 }
 
 const geist = Geist({
