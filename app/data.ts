@@ -3,6 +3,7 @@ type Project = {
   description: string
   link: string
   video: string
+  image: string
   id: string
 }
 
@@ -33,7 +34,8 @@ export const PROJECTS: Project[] = [
     description: 'I looked at how gender identity affected performance evaluations of surgical scars.',
     link: 'https://www.proquest.com/docview/3180533619/abstract/496A7B59ED964F77PQ/1?accountid=14586&sourcetype=Dissertations%20&%20Theses',
     video:'',
-  id: 'project1',
+    image: '/placeholder.png',
+    id: 'project1',
   },
   {
     name: 'Measuring Muscle Force',
@@ -41,6 +43,7 @@ export const PROJECTS: Project[] = [
       'A publication discussing a video game based system for measuring muscle force. Note, published under M. Gotthelf',
     link: 'https://jneuroengrehab.biomedcentral.com/articles/10.1186/s12984-021-00908-1',
     video:'',
+    image: '/placeholder.png',
     id: 'project2',
   },
   {
@@ -48,6 +51,7 @@ export const PROJECTS: Project[] = [
     description: 'During 2020 I decided to make a piano.',
     link: 'https://github.com/Majoras-Other-Mask/DIY-Pocket-Piano',
     video:'',
+    image: '/placeholder.png',
     id: 'project3',
   },
 ]
