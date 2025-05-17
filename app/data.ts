@@ -14,6 +14,9 @@ type WorkExperience = {
   end: string
   link: string
   id: string
+  description?: string
+  achievements?: string[]
+  technologies?: string[]
 }
 
 type BlogPost = {
@@ -59,11 +62,18 @@ export const PROJECTS: Project[] = [
 export const WORK_EXPERIENCE: WorkExperience[] = [
   {
     company: 'University of Wisconsin - River Falls',
-    title: 'Lecturer– Physics & Engineering ',
+    title: 'Lecturer– Physics & Engineering',
     start: '2024',
     end: 'Present',
     link: 'https://www.uwrf.edu/',
     id: 'work1',
+    description: 'Teaching physics and engineering courses while developing innovative curriculum to prepare students for careers in STEM fields.',
+    achievements: [
+      'Developed new course materials for Mechatronics labs',
+      'Mentored undergraduate research projects',
+      'Collaborated on department curriculum revisions'
+    ],
+    technologies: ['MATLAB', 'Python', 'CAD', 'Lab Equipment']
   },
   {
     company: 'Medical Robotics and Devices Lab @ U of M',
@@ -72,6 +82,14 @@ export const WORK_EXPERIENCE: WorkExperience[] = [
     end: '2024',
     link: 'https://mrd.umn.edu/',
     id: 'work2',
+    description: 'Conducted research on medical robotics systems and developed data-driven approaches for medical technology applications. Focused on human-machine interfaces for rehabilitation and assistive devices.',
+    achievements: [
+      'Published 4 peer-reviewed research papers',
+      'Developed novel muscle force measurement system',
+      'Secured $50,000 in research funding through competitive grants',
+      'Mentored 6 undergraduate researchers'
+    ],
+    technologies: ['Python', 'ROS', 'Machine Learning', 'Control Systems', 'C++', 'MATLAB']
   },
   {
     company: 'Hu-Friedy Group',
@@ -80,6 +98,14 @@ export const WORK_EXPERIENCE: WorkExperience[] = [
     end: '2018',
     link: 'https://www.hufriedygroup.com/en',
     id: 'work3',
+    description: 'Rotated through several key departments including R&D, Manufacturing, and Quality Assurance to gain comprehensive experience in medical device development and production.',
+    achievements: [
+      'Redesigned manufacturing process resulting in 15% improved efficiency',
+      'Contributed to development of new dental instrument line',
+      'Implemented quality control protocols that reduced defect rates by 8%',
+      'Supported FDA compliance documentation'
+    ],
+    technologies: ['CAD/CAM', 'Statistical Analysis', 'Quality Control Systems', 'Manufacturing Processes']
   },
 ]
 
@@ -95,7 +121,6 @@ export const BLOG_POSTS: BlogPost[] = [
   */
 
 export const SOCIAL_LINKS: SocialLink[] = [
-
   {
     label: 'LinkedIn',
     link: 'https://www.linkedin.com/in/ogotthelf',

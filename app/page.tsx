@@ -24,6 +24,12 @@ import {
   EMAIL,
   SOCIAL_LINKS,
 } from './data'
+import { 
+  Accordion, 
+  AccordionItem, 
+  AccordionTrigger, 
+  AccordionContent 
+} from '@/components/motion-primitives/accordion'
 
 // Define Project type to match your data structure
 type Project = {
@@ -33,6 +39,20 @@ type Project = {
   video: string
   image: string
   id: string
+}
+
+// Define the WorkExperience type
+type WorkExperience = {
+  company: string
+  title: string
+  start: string
+  end: string
+  link: string
+  id: string
+  // Add these properties to match your data
+  description?: string
+  achievements?: string[]
+  technologies?: string[]
 }
 
 // Define the ProjectCard component which uses MorphingDialog
@@ -165,6 +185,143 @@ function ProjectsSection() {
   );
 }
 
+// New WorkExperience Section with Accordion
+function WorkExperienceSection() {
+  return (
+    <motion.section
+      variants={{
+        hidden: { opacity: 0, y: 20, filter: 'blur(8px)' },
+        visible: { opacity: 1, y: 0, filter: 'blur(0px)' },
+      }}
+      transition={{ duration: 0.3 }}
+    >
+      <h3 className="mb-5 text-2xl font-medium">Work Experience</h3>
+      {/* Remove 'type' and 'collapsible' props which are causing errors */}
+      <Accordion className="flex flex-col space-y-2">
+        {WORK_EXPERIENCE.map((job) => (
+          <div
+            key={job.id}
+            className="relative overflow-hidden rounded-xl bg-zinc-300/30 dark:bg-zinc-600/30"
+          >
+            <Spotlight
+              className="from-zinc-900 via-zinc-800 to-zinc-700 blur-2xl dark:from-zinc-100 dark:via-zinc-200 dark:to-zinc-50"
+              size={64}
+            />
+            <AccordionItem value={job.id} className="bg-white dark:bg-zinc-950 rounded-xl">
+              <AccordionTrigger className="px-4 relative w-full flex justify-between">
+                <div className="flex-1">
+                  <h4 className="text-left font-normal dark:text-zinc-100">
+                    {job.title}
+                  </h4>
+                  <p className="text-left text-zinc-500 dark:text-zinc-400">
+                    {job.company}
+                  </p>
+                </div>
+                <div className="text-right text-zinc-600 dark:text-zinc-400 flex-shrink-0 pl-2">
+                  {job.start} - {job.end}
+                </div>
+              </AccordionTrigger>
+              <AccordionContent className="px-4">
+                <div className="text-zinc-600 dark:text-zinc-400">
+                  <p className="mb-2">{job.description || 'Worked on various projects and responsibilities related to my role.'}</p>
+                  
+                  {job.achievements && job.achievements.length > 0 && (
+                    <div className="mb-2">
+                      <h5 className="font-medium text-zinc-700 dark:text-zinc-300 mb-1">Key Achievements:</h5>
+                      <ul className="list-disc list-inside space-y-1">
+                        {job.achievements.map((achievement, index) => (
+                          <li key={index}>{achievement}</li>
+                        ))}
+                      </ul>
+                    </div>
+                  )}
+                  
+                  {job.technologies && job.technologies.length > 0 && (
+                    <div className="mb-2">
+                      <h5 className="font-medium text-zinc-700 dark:text-zinc-300 mb-1">Technologies:</h5>
+                      <div className="flex flex-wrap gap-2">
+                        {job.technologies.map((tech, index) => (
+                          <span 
+                            key={index} 
+                            className="px-2 py-1 bg-zinc-100 dark:bg-zinc-800 rounded-md text-xs"
+                          >
+                            {tech}
+                          </span>
+                        ))}
+                      </div>
+                    </div>
+                  )}
+                  
+                  <div className="mt-3">
+                    <a
+                      href={job.link}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="inline-flex items-center text-sm text-zinc-700 dark:text-zinc-300 hover:underline"
+                    >
+                      Visit Website
+                      <svg
+                        width="15"
+                        height="15"
+                        viewBox="0 0 15 15"
+                        fill="none"
+                        xmlns="http://www.w3.org/2000/svg"
+                        className="ml-1 h-3 w-3"
+                      >
+                        <path
+                          d="M3.64645 11.3536C3.45118 11.1583 3.45118 10.8417 3.64645 10.6465L10.2929 4L6 4C5.72386 4 5.5 3.77614 5.5 3.5C5.5 3.22386 5.72386 3 6 3L11.5 3C11.6326 3 11.7598 3.05268 11.8536 3.14645C11.9473 3.24022 12 3.36739 12 3.5L12 9.00001C12 9.27615 11.7761 9.50001 11.5 9.50001C11.2239 9.50001 11 9.27615 11 9.00001V4.70711L4.35355 11.3536C4.15829 11.5488 3.84171 11.5488 3.64645 11.3536Z"
+                          fill="currentColor"
+                          fillRule="evenodd"
+                          clipRule="evenodd"
+                        ></path>
+                      </svg>
+                    </a>
+                  </div>
+                </div>
+              </AccordionContent>
+            </AccordionItem>
+          </div>
+        ))}
+      </Accordion>
+    </motion.section>
+  );
+}
+
+// UnderConstructionNotice Component
+function UnderConstructionNotice() {
+  return (
+    <motion.div
+      initial={{ opacity: 0, y: -20 }}
+      animate={{ opacity: 1, y: 0 }}
+      transition={{ duration: 0.5 }}
+      className="mb-8 p-4 border-2 border-amber-500 bg-amber-50 dark:bg-amber-900/30 dark:border-amber-600 rounded-lg shadow-md"
+    >
+      <div className="flex items-center gap-3">
+        <svg 
+          xmlns="http://www.w3.org/2000/svg" 
+          width="24" 
+          height="24" 
+          viewBox="0 0 24 24" 
+          fill="none" 
+          stroke="currentColor" 
+          strokeWidth="2" 
+          strokeLinecap="round" 
+          strokeLinejoin="round" 
+          className="text-amber-600 dark:text-amber-500"
+        >
+          <path d="M10.29 3.86L1.82 18a2 2 0 0 0 1.71 3h16.94a2 2 0 0 0 1.71-3L13.71 3.86a2 2 0 0 0-3.42 0z"></path>
+          <line x1="12" y1="9" x2="12" y2="13"></line>
+          <line x1="12" y1="17" x2="12.01" y2="17"></line>
+        </svg>
+        <div>
+          <h2 className="font-bold text-amber-800 dark:text-amber-400">WEBSITE UNDER CONSTRUCTION</h2>
+          <p className="text-amber-700 dark:text-amber-300">INFORMATION ON SITE IS CURRENTLY A PLACEHOLDER AND DOES NOT REPRESENT ACTUAL EXPERIENCES</p>
+        </div>
+      </div>
+    </motion.div>
+  );
+}
+
 export default function Personal() {
   return (
     <motion.main
@@ -194,50 +351,14 @@ export default function Personal() {
           With a Ph.D. in Mechanical Engineering, my work bridges robotics, control, and design across industry and academia.
           </p>
         </div>
+
+      <UnderConstructionNotice />
+      
       </motion.section>
 
       <ProjectsSection />
 
-      <motion.section
-        variants={{
-          hidden: { opacity: 0, y: 20, filter: 'blur(8px)' },
-          visible: { opacity: 1, y: 0, filter: 'blur(0px)' },
-        }}
-        transition={{ duration: 0.3 }}
-      >
-        <h3 className="mb-5 text-lg font-medium">Work Experience</h3>
-        <div className="flex flex-col space-y-2">
-          {WORK_EXPERIENCE.map((job) => (
-            <a
-              className="relative overflow-hidden rounded-2xl bg-zinc-300/30 p-[1px] dark:bg-zinc-600/30"
-              href={job.link}
-              target="_blank"
-              rel="noopener noreferrer"
-              key={job.id}
-            >
-              <Spotlight
-                className="from-zinc-900 via-zinc-800 to-zinc-700 blur-2xl dark:from-zinc-100 dark:via-zinc-200 dark:to-zinc-50"
-                size={64}
-              />
-              <div className="relative h-full w-full rounded-[15px] bg-white p-4 dark:bg-zinc-950">
-                <div className="relative flex w-full flex-row justify-between">
-                  <div>
-                    <h4 className="font-normal dark:text-zinc-100">
-                      {job.title}
-                    </h4>
-                    <p className="text-zinc-500 dark:text-zinc-400">
-                      {job.company}
-                    </p>
-                  </div>
-                  <p className="text-zinc-600 dark:text-zinc-400">
-                    {job.start} - {job.end}
-                  </p>
-                </div>
-              </div>
-            </a>
-          ))}
-        </div>
-      </motion.section>
+      <WorkExperienceSection />
 
       <motion.section
         variants={{
