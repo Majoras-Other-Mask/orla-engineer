@@ -8,7 +8,7 @@ import {
   MotionConfig,
 } from 'motion/react';
 import { cn } from '@/lib/utils';
-import React, { createContext, useContext, useState, ReactNode } from 'react';
+import React, { createContext, useContext, useState, ReactNode, ReactElement } from 'react';
 
 export type AccordionContextType = {
   expandedValue: React.Key | null;
@@ -97,6 +97,14 @@ function Accordion({
   );
 }
 
+// Define a more specific type for accordion child components
+export interface AccordionChildProps {
+  value?: React.Key;
+  expanded?: boolean;
+  className?: string;
+  children?: ReactNode;
+}
+
 export type AccordionItemProps = {
   value: React.Key;
   children: ReactNode;
@@ -114,11 +122,14 @@ function AccordionItem({ value, children, className }: AccordionItemProps) {
     >
       {React.Children.map(children, (child) => {
         if (React.isValidElement(child)) {
-          return React.cloneElement(child, {
-            ...child.props,
-            value,
-            expanded: isExpanded,
-          });
+          // More explicit typing for React.cloneElement
+          return React.cloneElement(
+            child as ReactElement<AccordionChildProps>,
+            {
+              value,
+              expanded: isExpanded,
+            }
+          );
         }
         return child;
       })}
@@ -126,7 +137,7 @@ function AccordionItem({ value, children, className }: AccordionItemProps) {
   );
 }
 
-export type AccordionTriggerProps = {
+export type AccordionTriggerProps = AccordionChildProps & {
   children: ReactNode;
   className?: string;
 };
@@ -134,11 +145,12 @@ export type AccordionTriggerProps = {
 function AccordionTrigger({
   children,
   className,
-  ...props
+  value,
+  expanded,
 }: AccordionTriggerProps) {
   const { toggleItem, expandedValue } = useAccordion();
-  const value = (props as { value?: React.Key }).value;
-  const isExpanded = value === expandedValue;
+  // Use the props or context
+  const isExpanded = expanded ?? (value === expandedValue);
 
   return (
     <button
@@ -153,7 +165,7 @@ function AccordionTrigger({
   );
 }
 
-export type AccordionContentProps = {
+export type AccordionContentProps = AccordionChildProps & {
   children: ReactNode;
   className?: string;
 };
@@ -161,11 +173,12 @@ export type AccordionContentProps = {
 function AccordionContent({
   children,
   className,
-  ...props
+  value,
+  expanded,
 }: AccordionContentProps) {
   const { expandedValue, variants } = useAccordion();
-  const value = (props as { value?: React.Key }).value;
-  const isExpanded = value === expandedValue;
+  // Use the props or context
+  const isExpanded = expanded ?? (value === expandedValue);
 
   const BASE_VARIANTS: Variants = {
     expanded: { height: 'auto', opacity: 1 },
