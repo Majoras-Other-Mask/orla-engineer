@@ -43,7 +43,7 @@ export const PROJECTS: Project[] = [
       'A publication discussing a video game based system for measuring muscle force. Note, published under M. Gotthelf',
     link: 'https://jneuroengrehab.biomedcentral.com/articles/10.1186/s12984-021-00908-1',
     video:'',
-    image: '/placeholder.png',
+    image: '/ph2.jpg',
     id: 'project2',
   },
   {

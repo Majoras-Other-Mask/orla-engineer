@@ -9,10 +9,15 @@ import {
   MorphingDialogContent,
   MorphingDialogClose,
   MorphingDialogContainer,
+  MorphingDialogTitle,
+  MorphingDialogSubtitle,
+  MorphingDialogImage,
+  MorphingDialogDescription,
 } from '@/components/ui/morphing-dialog'
 import Link from 'next/link'
 import { AnimatedBackground } from '@/components/ui/animated-background'
 import Image from 'next/image'
+import { PlusIcon } from 'lucide-react';
 import {
   PROJECTS,
   WORK_EXPERIENCE,
@@ -20,123 +25,168 @@ import {
   SOCIAL_LINKS,
 } from './data'
 
-const VARIANTS_CONTAINER = {
-  hidden: { opacity: 0 },
-  visible: {
-    opacity: 1,
-    transition: {
-      staggerChildren: 0.15,
-    },
-  },
+// Define Project type to match your data structure
+type Project = {
+  name: string
+  description: string
+  link: string
+  video: string
+  image: string
+  id: string
 }
 
-const VARIANTS_SECTION = {
-  hidden: { opacity: 0, y: 20, filter: 'blur(8px)' },
-  visible: { opacity: 1, y: 0, filter: 'blur(0px)' },
-}
-
-const TRANSITION_SECTION = {
-  duration: 0.3,
-}
-
-type ProjectImageProps = {
-  src: string
-  alt: string
-}
-
-function ProjectImage({ src, alt }: ProjectImageProps) {
+// Define the ProjectCard component which uses MorphingDialog
+function ProjectCard({ project }: { project: Project }) {
   return (
     <MorphingDialog
       transition={{
         type: 'spring',
-        bounce: 0,
-        duration: 0.3,
+        stiffness: 200,
+        damping: 24,
       }}
     >
-      <MorphingDialogTrigger>
-        <div className="aspect-video w-full cursor-zoom-in rounded-xl overflow-hidden relative">
-          <Image
-            src={src}
-            alt={alt}
-            fill
-            className="object-cover"
-          />
+      <MorphingDialogTrigger
+        style={{
+          borderRadius: '12px',
+        }}
+        className='flex max-w-[270px] flex-col overflow-hidden border border-zinc-950/10 bg-white dark:border-zinc-50/10 dark:bg-zinc-900'
+      >
+        <MorphingDialogImage
+          src= {project.image}
+          alt={project.name}
+          className="object-cover w-full h-full"
+        />
+        <div className='flex grow flex-row items-end justify-between px-3 py-2'>
+          <div className="flex flex-col">
+            <MorphingDialogTitle className='text-zinc-950 dark:text-zinc-50'>
+              {project.name}
+            </MorphingDialogTitle>
+            <MorphingDialogSubtitle className="text-xs text-gray-300 line-clamp-1">
+              {project.description.substring(0, 60)}...
+            </MorphingDialogSubtitle>
+          </div>
+          <button
+            type='button'
+            className='relative ml-1 flex h-6 w-6 shrink-0 scale-100 select-none appearance-none items-center justify-center rounded-lg border border-zinc-950/10 text-zinc-500 transition-colors hover:bg-zinc-100 hover:text-zinc-800 focus-visible:ring-2 active:scale-[0.98] dark:border-zinc-50/10 dark:bg-zinc-900 dark:text-zinc-500 dark:hover:bg-zinc-800 dark:hover:text-zinc-50 dark:focus-visible:ring-zinc-500'
+            aria-label='Open dialog'
+          >
+            <PlusIcon size={12} />
+          </button>
         </div>
       </MorphingDialogTrigger>
       <MorphingDialogContainer>
-        <MorphingDialogContent className="relative aspect-video rounded-2xl bg-zinc-50 p-1 ring-1 ring-zinc-200/50 ring-inset dark:bg-zinc-950 dark:ring-zinc-800/50">
-          <div className="aspect-video h-[50vh] w-full rounded-xl md:h-[70vh] relative">
-            <Image
-              src={src}
-              alt={alt}
-              fill
-              className="object-cover rounded-xl"
-            />
-          </div>
-        </MorphingDialogContent>
-        <MorphingDialogClose
-          className="fixed top-6 right-6 h-fit w-fit rounded-full bg-white p-1"
-          variants={{
-            initial: { opacity: 0 },
-            animate: {
-              opacity: 1,
-              transition: { delay: 0.3, duration: 0.1 },
-            },
-            exit: { opacity: 0, transition: { duration: 0 } },
+        <MorphingDialogContent
+          style={{
+            borderRadius: '24px',
           }}
+          className="relative max-w-4xl rounded-2xl bg-white p-6 dark:bg-zinc-900 ring-1 ring-zinc-200/50 ring-inset dark:ring-zinc-800/50"
         >
-          <XIcon className="h-5 w-5 text-zinc-500" />
-        </MorphingDialogClose>
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+            <MorphingDialogImage
+              src={project.image}
+              alt={project.name}
+              className="h-full w-full"
+            />
+            <div className='p-6'>
+              <MorphingDialogTitle className='text-2xl text-zinc-950 dark:text-zinc-50'>
+                {project.name}
+              </MorphingDialogTitle>
+              <MorphingDialogSubtitle className='text-zinc-700 dark:text-zinc-400'>
+                Research Project
+              </MorphingDialogSubtitle>
+              <MorphingDialogDescription
+                disableLayoutAnimation
+                variants={{
+                  initial: { opacity: 0, scale: 0.8, y: 100 },
+                  animate: { opacity: 1, scale: 1, y: 0 },
+                  exit: { opacity: 0, scale: 0.8, y: 100 },
+                }}
+              >
+                <p className="mt-2 text-zinc-500 dark:text-zinc-500">
+                  {project.description}
+                </p>
+              
+              </MorphingDialogDescription>
+            </div>
+            <div className="mt-4">
+              <a
+                href={project.link}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="inline-flex items-center px-4 py-2 rounded-md bg-zinc-900 text-white dark:bg-zinc-700 hover:bg-zinc-800 dark:hover:bg-zinc-600 transition-colors"
+              >
+                Visit Project
+                <svg
+                  width="15"
+                  height="15"
+                  viewBox="0 0 15 15"
+                  fill="none"
+                  xmlns="http://www.w3.org/2000/svg"
+                  className="ml-2 h-3 w-3"
+                >
+                  <path
+                    d="M3.64645 11.3536C3.45118 11.1583 3.45118 10.8417 3.64645 10.6465L10.2929 4L6 4C5.72386 4 5.5 3.77614 5.5 3.5C5.5 3.22386 5.72386 3 6 3L11.5 3C11.6326 3 11.7598 3.05268 11.8536 3.14645C11.9473 3.24022 12 3.36739 12 3.5L12 9.00001C12 9.27615 11.7761 9.50001 11.5 9.50001C11.2239 9.50001 11 9.27615 11 9.00001V4.70711L4.35355 11.3536C4.15829 11.5488 3.84171 11.5488 3.64645 11.3536Z"
+                    fill="currentColor"
+                    fillRule="evenodd"
+                    clipRule="evenodd"
+                  ></path>
+                </svg>
+              </a>
+            </div>
+          </div>
+          <MorphingDialogClose
+            className="absolute top-6 right-6 h-fit w-fit rounded-full bg-white p-1 dark:bg-zinc-800"
+          >
+            <XIcon className="h-5 w-5 text-zinc-500" />
+          </MorphingDialogClose>
+        </MorphingDialogContent>
       </MorphingDialogContainer>
     </MorphingDialog>
-  )
+  );
 }
 
-function MagneticSocialLink({
-  children,
-  link,
-}: {
-  children: React.ReactNode
-  link: string
-}) {
+// Updated Projects Section Component
+function ProjectsSection() {
   return (
-    <Magnetic springOptions={{ bounce: 0 }} intensity={0.3}>
-      <a
-        href={link}
-        className="group relative inline-flex shrink-0 items-center gap-[1px] rounded-full bg-zinc-100 px-2.5 py-1 text-sm text-black transition-colors duration-200 hover:bg-zinc-950 hover:text-zinc-50 dark:bg-zinc-800 dark:text-zinc-100 dark:hover:bg-zinc-700"
-      >
-        {children}
-        <svg
-          width="15"
-          height="15"
-          viewBox="0 0 15 15"
-          fill="none"
-          xmlns="http://www.w3.org/2000/svg"
-          className="h-3 w-3"
-        >
-          <path
-            d="M3.64645 11.3536C3.45118 11.1583 3.45118 10.8417 3.64645 10.6465L10.2929 4L6 4C5.72386 4 5.5 3.77614 5.5 3.5C5.5 3.22386 5.72386 3 6 3L11.5 3C11.6326 3 11.7598 3.05268 11.8536 3.14645C11.9473 3.24022 12 3.36739 12 3.5L12 9.00001C12 9.27615 11.7761 9.50001 11.5 9.50001C11.2239 9.50001 11 9.27615 11 9.00001V4.70711L4.35355 11.3536C4.15829 11.5488 3.84171 11.5488 3.64645 11.3536Z"
-            fill="currentColor"
-            fillRule="evenodd"
-            clipRule="evenodd"
-          ></path>
-        </svg>
-      </a>
-    </Magnetic>
-  )
+    <motion.section
+      variants={{
+        hidden: { opacity: 0, y: 20, filter: 'blur(8px)' },
+        visible: { opacity: 1, y: 0, filter: 'blur(0px)' },
+      }}
+      transition={{ duration: 0.3 }}
+    >
+      <h3 className="mb-5 text-2xl font-medium">Selected Projects</h3>
+      <div className="grid grid-cols-1 gap-6 sm:grid-cols-2">
+        {PROJECTS.map((project) => (
+          <ProjectCard key={project.id} project={project} />
+        ))}
+      </div>
+    </motion.section>
+  );
 }
 
 export default function Personal() {
   return (
     <motion.main
       className="space-y-24"
-      variants={VARIANTS_CONTAINER}
+      variants={{
+        hidden: { opacity: 0 },
+        visible: {
+          opacity: 1,
+          transition: {
+            staggerChildren: 0.15,
+          },
+        },
+      }}
       initial="hidden"
       animate="visible"
     >
       <motion.section
-        variants={VARIANTS_SECTION}
-        transition={TRANSITION_SECTION}
+        variants={{
+          hidden: { opacity: 0, y: 20, filter: 'blur(8px)' },
+          visible: { opacity: 1, y: 0, filter: 'blur(0px)' },
+        }}
+        transition={{ duration: 0.3 }}
       >
         <div className="flex-1">
           <p className="text-zinc-600 dark:text-zinc-400">
@@ -146,38 +196,14 @@ export default function Personal() {
         </div>
       </motion.section>
 
-      <motion.section
-        variants={VARIANTS_SECTION}
-        transition={TRANSITION_SECTION}
-      >
-        <h3 className="mb-5 text-lg font-medium">Selected Projects</h3>
-        <div className="grid grid-cols-1 gap-6 sm:grid-cols-2">
-          {PROJECTS.map((project) => (
-            <div key={project.name} className="space-y-2">
-              <div className="relative rounded-2xl bg-zinc-50/40 p-1 ring-1 ring-zinc-200/50 ring-inset dark:bg-zinc-950/40 dark:ring-zinc-800/50">
-                <ProjectImage src={project.image} alt={project.name} />
-              </div>
-              <div className="px-1">
-                <a
-                  className="font-base group relative inline-block font-[450] text-zinc-900 dark:text-zinc-50"
-                  href={project.link}
-                  target="_blank"
-                >
-                  {project.name}
-                  <span className="absolute bottom-0.5 left-0 block h-[1px] w-full max-w-0 bg-zinc-900 transition-all duration-200 group-hover:max-w-full"></span>
-                </a>
-                <p className="text-base text-zinc-600 dark:text-zinc-400">
-                  {project.description}
-                </p>
-              </div>
-            </div>
-          ))}
-        </div>
-      </motion.section>
+      <ProjectsSection />
 
       <motion.section
-        variants={VARIANTS_SECTION}
-        transition={TRANSITION_SECTION}
+        variants={{
+          hidden: { opacity: 0, y: 20, filter: 'blur(8px)' },
+          visible: { opacity: 1, y: 0, filter: 'blur(0px)' },
+        }}
+        transition={{ duration: 0.3 }}
       >
         <h3 className="mb-5 text-lg font-medium">Work Experience</h3>
         <div className="flex flex-col space-y-2">
@@ -214,8 +240,11 @@ export default function Personal() {
       </motion.section>
 
       <motion.section
-        variants={VARIANTS_SECTION}
-        transition={TRANSITION_SECTION}
+        variants={{
+          hidden: { opacity: 0, y: 20, filter: 'blur(8px)' },
+          visible: { opacity: 1, y: 0, filter: 'blur(0px)' },
+        }}
+        transition={{ duration: 0.3 }}
       >
         <h3 className="mb-5 text-lg font-medium">Connect</h3>
         <p className="mb-5 text-zinc-600 dark:text-zinc-400">
@@ -226,12 +255,32 @@ export default function Personal() {
         </p>
         <div className="flex items-center justify-start space-x-3">
           {SOCIAL_LINKS.map((link) => (
-            <MagneticSocialLink key={link.label} link={link.link}>
-              {link.label}
-            </MagneticSocialLink>
+            <Magnetic key={link.label} springOptions={{ bounce: 0 }} intensity={0.3}>
+              <a
+                href={link.link}
+                className="group relative inline-flex shrink-0 items-center gap-[1px] rounded-full bg-zinc-100 px-2.5 py-1 text-sm text-black transition-colors duration-200 hover:bg-zinc-950 hover:text-zinc-50 dark:bg-zinc-800 dark:text-zinc-100 dark:hover:bg-zinc-700"
+              >
+                {link.label}
+                <svg
+                  width="15"
+                  height="15"
+                  viewBox="0 0 15 15"
+                  fill="none"
+                  xmlns="http://www.w3.org/2000/svg"
+                  className="h-3 w-3"
+                >
+                  <path
+                    d="M3.64645 11.3536C3.45118 11.1583 3.45118 10.8417 3.64645 10.6465L10.2929 4L6 4C5.72386 4 5.5 3.77614 5.5 3.5C5.5 3.22386 5.72386 3 6 3L11.5 3C11.6326 3 11.7598 3.05268 11.8536 3.14645C11.9473 3.24022 12 3.36739 12 3.5L12 9.00001C12 9.27615 11.7761 9.50001 11.5 9.50001C11.2239 9.50001 11 9.27615 11 9.00001V4.70711L4.35355 11.3536C4.15829 11.5488 3.84171 11.5488 3.64645 11.3536Z"
+                    fill="currentColor"
+                    fillRule="evenodd"
+                    clipRule="evenodd"
+                  ></path>
+                </svg>
+              </a>
+            </Magnetic>
           ))}
         </div>
       </motion.section>
     </motion.main>
-  )
+  );
 }
