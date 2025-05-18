@@ -7,19 +7,21 @@ export function Header() {
     <header className="mb-8 flex items-center justify-between">
       <div>
         <Link href="/" className="text-3xl font-medium text-black dark:text-white">
-          Orla Gotthelf &nbsp;
+          Orla Gotthelf
         </Link>
-        <TextLoop 
-          className="text-3xl font-medium text-black dark:text-white"
-          interval={4}  // Increase from default 2 to 4 seconds
-          transition={{ duration: 0.8 }}  // Increase from 0.3 to 0.8 seconds
+        <div>
+          <TextLoop 
+            className="text-3xl font-medium text-black dark:text-white"
+            interval={4}
+            transition={{ duration: 0.8 }}
           >
-          <span> - &nbsp;Mechanical Engineer</span>
-          <span> - &nbsp;Roboticist</span>
-          <span> - &nbsp;Mechatronics Specialist</span>
-          <span> - &nbsp;Python Coder</span>
-          <span> - &nbsp;Controls Systems Expert</span>
-        </TextLoop >
+            <span>Mechanical Engineer</span>
+            <span>Roboticist</span>
+            <span>Mechatronics Specialist</span>
+            <span>Python Coder</span>
+            <span>Controls Systems Expert</span>
+          </TextLoop>
+        </div>
       </div>
     </header>
   )

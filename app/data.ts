@@ -109,16 +109,15 @@ export const WORK_EXPERIENCE: WorkExperience[] = [
   },
 ]
 
-/*
+
 export const BLOG_POSTS: BlogPost[] = [
   {
-    title: 'Exploring the Intersection of Design, AI, and Design Engineering',
-    description: 'How AI is changing the way we design',
-    link: '/blog/exploring-the-intersection-of-design-ai-and-design-engineering',
+    title: 'Blog Post Template',
+    description: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.',
+    link: '/blog/blog-post-template',
     uid: 'blog-1',
   },
 ]
-  */
 
 export const SOCIAL_LINKS: SocialLink[] = [
   {
