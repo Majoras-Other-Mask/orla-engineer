@@ -1,6 +1,9 @@
 'use client'
 import { motion } from 'motion/react'
-import { XIcon } from 'lucide-react'
+import { 
+  XIcon,
+  ChevronUp, 
+} from 'lucide-react'
 import { Spotlight } from '@/components/ui/spotlight'
 import { Magnetic } from '@/components/ui/magnetic'
 import {
@@ -83,14 +86,14 @@ function ProjectCard({ project }: { project: Project }) {
         <MorphingDialogImage
           src= {project.image}
           alt={project.name}
-          className="object-cover w-full h-full"
+          className="h-full w-full object-cover"
         />
         <div className='flex grow flex-row items-end justify-between px-3 py-2'>
           <div className="flex flex-col">
             <MorphingDialogTitle className='text-zinc-950 dark:text-zinc-50'>
               {project.name}
             </MorphingDialogTitle>
-            <MorphingDialogSubtitle className="text-xs text-gray-300 line-clamp-1">
+            <MorphingDialogSubtitle className="line-clamp-1 text-xs text-zinc-500 dark:text-zinc-400">
               {project.description.substring(0, 60)}...
             </MorphingDialogSubtitle>
           </div>
@@ -108,9 +111,9 @@ function ProjectCard({ project }: { project: Project }) {
           style={{
             borderRadius: '24px',
           }}
-          className="relative max-w-4xl rounded-2xl bg-white p-6 dark:bg-zinc-900 ring-1 ring-zinc-200/50 ring-inset dark:ring-zinc-800/50"
+          className="relative max-w-4xl rounded-2xl bg-white p-6 ring-1 ring-inset ring-zinc-200/50 dark:bg-zinc-900 dark:ring-zinc-800/50"
         >
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+          <div className="grid grid-cols-1 gap-6 md:grid-cols-2">
             <MorphingDialogImage
               src={project.image}
               alt={project.name}
@@ -120,7 +123,7 @@ function ProjectCard({ project }: { project: Project }) {
               <MorphingDialogTitle className='text-2xl text-zinc-950 dark:text-zinc-50'>
                 {project.name}
               </MorphingDialogTitle>
-              <MorphingDialogSubtitle className='text-zinc-700 dark:text-zinc-400'>
+              <MorphingDialogSubtitle className='text-zinc-500 dark:text-zinc-400'>
                 Research Project
               </MorphingDialogSubtitle>
               <MorphingDialogDescription
@@ -131,7 +134,7 @@ function ProjectCard({ project }: { project: Project }) {
                   exit: { opacity: 0, scale: 0.8, y: 100 },
                 }}
               >
-                <p className="mt-2 text-zinc-500 dark:text-zinc-500">
+                <p className="mt-2 text-zinc-600 dark:text-zinc-400">
                   {project.description}
                 </p>
               
@@ -142,7 +145,7 @@ function ProjectCard({ project }: { project: Project }) {
                 href={project.link}
                 target="_blank"
                 rel="noopener noreferrer"
-                className="inline-flex items-center px-4 py-2 rounded-md bg-zinc-900 text-white dark:bg-zinc-700 hover:bg-zinc-800 dark:hover:bg-zinc-600 transition-colors"
+                className="inline-flex items-center rounded-md bg-zinc-900 px-4 py-2 text-white transition-colors hover:bg-zinc-800 dark:bg-zinc-700 dark:hover:bg-zinc-600"
               >
                 Visit Project
                 <svg
@@ -184,8 +187,8 @@ function ProjectsSection() {
       }}
       transition={{ duration: 0.3 }}
     >
-      <h3 className="mb-5 text-2xl font-medium">Selected Projects</h3>
-      <div className="grid grid-cols-1 gap-6 sm:grid-cols-2">
+      <h3 className="mb-5 text-2xl font-medium text-zinc-950 dark:text-zinc-50">Selected Projects</h3>
+      <div className="flex flex-col items-center gap-6 sm:grid sm:grid-cols-2 sm:items-start">
         {PROJECTS.map((project) => (
           <ProjectCard key={project.id} project={project} />
         ))}
@@ -204,40 +207,45 @@ function WorkExperienceSection() {
       }}
       transition={{ duration: 0.3 }}
     >
-      <h3 className="mb-5 text-2xl font-medium">Work Experience</h3>
-      {/* Remove 'type' and 'collapsible' props which are causing errors */}
-      <Accordion className="flex flex-col space-y-2">
+      <h3 className="mb-5 text-2xl font-medium text-zinc-950 dark:text-zinc-50">Work Experience</h3>
+      <Accordion 
+        className="flex flex-col divide-y divide-zinc-200 dark:divide-zinc-700 space-y-2"
+        transition={{ duration: 0.2, ease: 'easeInOut' }}
+      >
         {WORK_EXPERIENCE.map((job) => (
           <div
             key={job.id}
             className="relative overflow-hidden rounded-xl bg-zinc-300/30 dark:bg-zinc-600/30"
           >
             <Spotlight
-              className="from-zinc-900 via-zinc-800 to-zinc-700 blur-2xl dark:from-zinc-100 dark:via-zinc-200 dark:to-zinc-50"
+              className="hidden md:block from-zinc-900 via-zinc-800 to-zinc-700 blur-2xl dark:from-zinc-100 dark:via-zinc-200 dark:to-zinc-50"
               size={64}
             />
-            <AccordionItem value={job.id} className="bg-white dark:bg-zinc-950 rounded-xl">
-              <AccordionTrigger className="px-4 relative w-full flex justify-between">
+            <AccordionItem value={job.id} className="rounded-xl bg-white dark:bg-zinc-950">
+              <AccordionTrigger className="relative flex w-full justify-between px-4 py-2 group">
                 <div className="flex-1">
-                  <h4 className="text-left font-normal dark:text-zinc-100">
+                  <h4 className="text-left font-normal text-zinc-950 dark:text-zinc-50">
                     {job.title}
                   </h4>
                   <p className="text-left text-zinc-500 dark:text-zinc-400">
                     {job.company}
                   </p>
                 </div>
-                <div className="text-right text-zinc-600 dark:text-zinc-400 flex-shrink-0 pl-2">
-                  {job.start} - {job.end}
+                <div className="flex items-center gap-3">
+                  <div className="flex-shrink-0 text-right text-zinc-600 dark:text-zinc-400">
+                    {job.start} - {job.end}
+                  </div>
+                  <ChevronUp className="h-4 w-4 text-zinc-950 transition-transform duration-200 group-data-[expanded]:-rotate-180 dark:text-zinc-50" />
                 </div>
               </AccordionTrigger>
-              <AccordionContent className="px-4">
+              <AccordionContent className="px-4 pb-2">
                 <div className="text-zinc-600 dark:text-zinc-400">
                   <p className="mb-2">{job.description || 'Worked on various projects and responsibilities related to my role.'}</p>
                   
                   {job.achievements && job.achievements.length > 0 && (
                     <div className="mb-2">
-                      <h5 className="font-medium text-zinc-700 dark:text-zinc-300 mb-1">Key Achievements:</h5>
-                      <ul className="list-disc list-inside space-y-1">
+                      <h5 className="mb-1 font-medium text-zinc-950 dark:text-zinc-50">Key Achievements:</h5>
+                      <ul className="list-inside list-disc space-y-1">
                         {job.achievements.map((achievement, index) => (
                           <li key={index}>{achievement}</li>
                         ))}
@@ -247,12 +255,12 @@ function WorkExperienceSection() {
                   
                   {job.technologies && job.technologies.length > 0 && (
                     <div className="mb-2">
-                      <h5 className="font-medium text-zinc-700 dark:text-zinc-300 mb-1">Technologies:</h5>
+                      <h5 className="mb-1 font-medium text-zinc-950 dark:text-zinc-50">Technologies:</h5>
                       <div className="flex flex-wrap gap-2">
                         {job.technologies.map((tech, index) => (
                           <span 
                             key={index} 
-                            className="px-2 py-1 bg-zinc-100 dark:bg-zinc-800 rounded-md text-xs"
+                            className="rounded-md bg-zinc-100 px-2 py-1 text-xs dark:bg-zinc-800"
                           >
                             {tech}
                           </span>
@@ -266,7 +274,7 @@ function WorkExperienceSection() {
                       href={job.link}
                       target="_blank"
                       rel="noopener noreferrer"
-                      className="inline-flex items-center text-sm text-zinc-700 dark:text-zinc-300 hover:underline"
+                      className="inline-flex items-center text-sm text-zinc-950 hover:underline dark:text-zinc-50"
                     >
                       Visit Website
                       <svg
@@ -296,7 +304,7 @@ function WorkExperienceSection() {
   );
 }
 
-// New Blog Posts Section
+// Updated Blog Posts Section with simpler card design
 function BlogPostsSection() {
   return (
     <motion.section
@@ -306,51 +314,50 @@ function BlogPostsSection() {
       }}
       transition={{ duration: 0.3 }}
     >
-      <h3 className="mb-5 text-2xl font-medium">Latest Blog Posts</h3>
+      <h3 className="mb-5 text-2xl font-medium text-zinc-950 dark:text-zinc-50">Musings</h3>
       <div className="space-y-4">
         {BLOG_POSTS.map((post) => (
-          <div
+          <article
             key={post.uid}
-            className="relative overflow-hidden rounded-xl bg-zinc-300/30 dark:bg-zinc-600/30"
+            className="group relative overflow-hidden rounded-xl border border-zinc-950/10 bg-white p-4 transition-all hover:border-zinc-950/20 dark:border-zinc-50/10 dark:bg-zinc-950 dark:hover:border-zinc-50/20"
           >
-            <Spotlight
-              className="from-zinc-900 via-zinc-800 to-zinc-700 blur-2xl dark:from-zinc-100 dark:via-zinc-200 dark:to-zinc-50"
+          <Spotlight
+              className="hidden md:block from-zinc-900 via-zinc-800 to-zinc-700 blur-2xl dark:from-zinc-100 dark:via-zinc-200 dark:to-zinc-50"
               size={64}
             />
-            <div className="relative bg-white dark:bg-zinc-950 rounded-xl p-4 border border-zinc-950/10 dark:border-zinc-50/10">
-              <div className="flex items-start justify-between">
-                <div className="flex-1">
-                  <Link href={post.link}>
-                    <h4 className="text-lg font-medium text-zinc-950 dark:text-zinc-50 hover:text-zinc-700 dark:hover:text-zinc-300 transition-colors">
-                      {post.title}
-                    </h4>
-                  </Link>
-                  <p className="text-zinc-600 dark:text-zinc-400 mt-1">
+
+            <div className="flex items-start justify-between">
+              <div className="flex-1">
+                <Link href={post.link} className="block">
+                  <h4 className="text-lg font-medium text-zinc-950 group-hover:text-zinc-700 dark:text-zinc-50 dark:group-hover:text-zinc-300 transition-colors">
+                    {post.title}
+                  </h4>
+                  <p className="mt-1 text-zinc-600 dark:text-zinc-400">
                     {post.description}
                   </p>
-                </div>
-                <Link href={post.link}>
-                  <button className="relative ml-4 flex h-8 w-8 shrink-0 scale-100 select-none appearance-none items-center justify-center rounded-lg border border-zinc-950/10 text-zinc-500 transition-colors hover:bg-zinc-100 hover:text-zinc-800 focus-visible:ring-2 active:scale-[0.98] dark:border-zinc-50/10 dark:bg-zinc-900 dark:text-zinc-500 dark:hover:bg-zinc-800 dark:hover:text-zinc-50 dark:focus-visible:ring-zinc-500">
-                    <svg
-                      width="15"
-                      height="15"
-                      viewBox="0 0 15 15"
-                      fill="none"
-                      xmlns="http://www.w3.org/2000/svg"
-                      className="h-4 w-4"
-                    >
-                      <path
-                        d="M3.64645 11.3536C3.45118 11.1583 3.45118 10.8417 3.64645 10.6465L10.2929 4L6 4C5.72386 4 5.5 3.77614 5.5 3.5C5.5 3.22386 5.72386 3 6 3L11.5 3C11.6326 3 11.7598 3.05268 11.8536 3.14645C11.9473 3.24022 12 3.36739 12 3.5L12 9.00001C12 9.27615 11.7761 9.50001 11.5 9.50001C11.2239 9.50001 11 9.27615 11 9.00001V4.70711L4.35355 11.3536C4.15829 11.5488 3.84171 11.5488 3.64645 11.3536Z"
-                        fill="currentColor"
-                        fillRule="evenodd"
-                        clipRule="evenodd"
-                      ></path>
-                    </svg>
-                  </button>
                 </Link>
               </div>
+              <Link href={post.link}>
+                <button className="relative ml-4 flex h-8 w-8 shrink-0 scale-100 select-none appearance-none items-center justify-center rounded-lg border border-zinc-950/10 text-zinc-500 transition-colors hover:bg-zinc-100 hover:text-zinc-800 focus-visible:ring-2 active:scale-[0.98] dark:border-zinc-50/10 dark:bg-zinc-900 dark:text-zinc-500 dark:hover:bg-zinc-800 dark:hover:text-zinc-50 dark:focus-visible:ring-zinc-500">
+                  <svg
+                    width="15"
+                    height="15"
+                    viewBox="0 0 15 15"
+                    fill="none"
+                    xmlns="http://www.w3.org/2000/svg"
+                    className="h-4 w-4"
+                  >
+                    <path
+                      d="M3.64645 11.3536C3.45118 11.1583 3.45118 10.8417 3.64645 10.6465L10.2929 4L6 4C5.72386 4 5.5 3.77614 5.5 3.5C5.5 3.22386 5.72386 3 6 3L11.5 3C11.6326 3 11.7598 3.05268 11.8536 3.14645C11.9473 3.24022 12 3.36739 12 3.5L12 9.00001C12 9.27615 11.7761 9.50001 11.5 9.50001C11.2239 9.50001 11 9.27615 11 9.00001V4.70711L4.35355 11.3536C4.15829 11.5488 3.84171 11.5488 3.64645 11.3536Z"
+                      fill="currentColor"
+                      fillRule="evenodd"
+                      clipRule="evenodd"
+                    ></path>
+                  </svg>
+                </button>
+              </Link>
             </div>
-          </div>
+          </article>
         ))}
       </div>
     </motion.section>
@@ -364,7 +371,7 @@ function UnderConstructionNotice() {
       initial={{ opacity: 0, y: -20 }}
       animate={{ opacity: 1, y: 0 }}
       transition={{ duration: 0.5 }}
-      className="mb-8 p-4 border-2 border-amber-500 bg-amber-50 dark:bg-amber-900/30 dark:border-amber-600 rounded-lg shadow-md"
+      className="mb-8 rounded-lg border-2 border-amber-500 bg-amber-50 p-4 shadow-md dark:border-amber-600 dark:bg-amber-900/30"
     >
       <div className="flex items-center gap-3">
         <svg 
@@ -422,7 +429,7 @@ export default function Personal() {
           </p>
         </div>
 
-      <UnderConstructionNotice />
+        <UnderConstructionNotice />
       
       </motion.section>
 
@@ -439,10 +446,10 @@ export default function Personal() {
         }}
         transition={{ duration: 0.3 }}
       >
-        <h3 className="mb-5 text-lg font-medium">Connect</h3>
+        <h3 className="mb-5 text-2xl font-medium text-zinc-950 dark:text-zinc-50">Connect</h3>
         <p className="mb-5 text-zinc-600 dark:text-zinc-400">
           Feel free to contact me at{' '}
-          <a className="underline dark:text-zinc-300" href={`mailto:${EMAIL}`}>
+          <a className="underline text-zinc-950 dark:text-zinc-50" href={`mailto:${EMAIL}`}>
             {EMAIL}
           </a>
         </p>

@@ -1,30 +1,21 @@
 'use client'
-import { TextMorph } from '@/components/ui/text-morph'
 import { ScrollProgress } from '@/components/ui/scroll-progress'
 import { useEffect, useState } from 'react'
+import Link from 'next/link'
+import { ArrowLeftIcon } from 'lucide-react'
+import { usePathname } from 'next/navigation'
 
-function CopyButton() {
-  const [text, setText] = useState('Copy')
-  const currentUrl = typeof window !== 'undefined' ? window.location.href : ''
 
-  useEffect(() => {
-    setTimeout(() => {
-      setText('Copy')
-    }, 2000)
-  }, [text])
 
+function ReturnToPortfolioButton() {
   return (
-    <button
-      onClick={() => {
-        setText('Copied')
-        navigator.clipboard.writeText(currentUrl)
-      }}
-      className="flex items-center gap-1 text-center text-sm font-base text-zinc-500 transition-colors dark:text-zinc-400"
-      type="button"
+    <Link 
+      href="/"
+      className="inline-flex items-center gap-2 px-4 py-2 bg-zinc-100 hover:bg-zinc-200 dark:bg-zinc-800 dark:hover:bg-zinc-700 rounded-lg transition-colors text-zinc-700 dark:text-zinc-300 text-sm font-medium"
     >
-      <TextMorph>{text}</TextMorph>
-      <span>URL</span>
-    </button>
+      <ArrowLeftIcon className="h-4 w-4" />
+      Return to Portfolio
+    </Link>
   )
 }
 
@@ -33,6 +24,18 @@ export default function LayoutBlogPost({
 }: {
   children: React.ReactNode
 }) {
+  const pathname = usePathname()
+  
+  // Set a global flag to indicate we're on a blog page
+  useEffect(() => {
+    if (pathname?.startsWith('/blog')) {
+      document.body.setAttribute('data-blog-page', 'true')
+    }
+    
+    return () => {
+      document.body.removeAttribute('data-blog-page')
+    }
+  }, [pathname])
   return (
     <>
       <div className="pointer-events-none fixed left-0 top-0 z-10 h-12 w-full bg-gray-100 to-transparent backdrop-blur-xl [-webkit-mask-image:linear-gradient(to_bottom,black,transparent)] dark:bg-zinc-950" />
@@ -43,12 +46,15 @@ export default function LayoutBlogPost({
         }}
       />
 
-      <div className="absolute right-4 top-24">
-        <CopyButton />
-      </div>
-      <main className="prose prose-gray mt-24 pb-20 dark:prose-invert prose-h1:text-xl prose-h1:font-medium prose-h2:mt-12 prose-h2:scroll-m-20 prose-h2:text-lg prose-h2:font-medium prose-h3:text-base prose-h3:font-medium prose-h4:font-medium prose-h4:prose-base prose-h5:text-base prose-h5:font-medium prose-h6:text-base prose-h6:font-medium prose-strong:font-medium">
+      {/* Top navigation with return button */}
+      <main className="prose prose-gray mt-8 pb-4 prose-h4:prose-base dark:prose-invert prose-h1:text-xl prose-h1:font-medium prose-h2:mt-12 prose-h2:scroll-m-20 prose-h2:text-lg prose-h2:font-medium prose-h3:text-base prose-h3:font-medium prose-h4:font-medium prose-h5:text-base prose-h5:font-medium prose-h6:text-base prose-h6:font-medium prose-strong:font-medium">
         {children}
       </main>
+
+      {/* Bottom return button */}
+      <div className="mt-4 text-right">
+        <ReturnToPortfolioButton />
+      </div>
     </>
   )
 }
