@@ -1,6 +1,9 @@
 'use client'
 import { motion } from 'motion/react'
-import { XIcon } from 'lucide-react'
+import { 
+  XIcon,
+  ChevronUp, 
+} from 'lucide-react'
 import { Spotlight } from '@/components/ui/spotlight'
 import { Magnetic } from '@/components/ui/magnetic'
 import {
@@ -205,7 +208,10 @@ function WorkExperienceSection() {
       transition={{ duration: 0.3 }}
     >
       <h3 className="mb-5 text-2xl font-medium text-zinc-950 dark:text-zinc-50">Work Experience</h3>
-      <Accordion className="flex flex-col space-y-2">
+      <Accordion 
+        className="flex flex-col divide-y divide-zinc-200 dark:divide-zinc-700 space-y-2"
+        transition={{ duration: 0.2, ease: 'easeInOut' }}
+      >
         {WORK_EXPERIENCE.map((job) => (
           <div
             key={job.id}
@@ -216,7 +222,7 @@ function WorkExperienceSection() {
               size={64}
             />
             <AccordionItem value={job.id} className="rounded-xl bg-white dark:bg-zinc-950">
-              <AccordionTrigger className="relative flex w-full justify-between px-4">
+              <AccordionTrigger className="relative flex w-full justify-between px-4 py-2 group">
                 <div className="flex-1">
                   <h4 className="text-left font-normal text-zinc-950 dark:text-zinc-50">
                     {job.title}
@@ -225,11 +231,14 @@ function WorkExperienceSection() {
                     {job.company}
                   </p>
                 </div>
-                <div className="flex-shrink-0 pl-2 text-right text-zinc-600 dark:text-zinc-400">
-                  {job.start} - {job.end}
+                <div className="flex items-center gap-3">
+                  <div className="flex-shrink-0 text-right text-zinc-600 dark:text-zinc-400">
+                    {job.start} - {job.end}
+                  </div>
+                  <ChevronUp className="h-4 w-4 text-zinc-950 transition-transform duration-200 group-data-[expanded]:-rotate-180 dark:text-zinc-50" />
                 </div>
               </AccordionTrigger>
-              <AccordionContent className="px-4">
+              <AccordionContent className="px-4 pb-2">
                 <div className="text-zinc-600 dark:text-zinc-400">
                   <p className="mb-2">{job.description || 'Worked on various projects and responsibilities related to my role.'}</p>
                   
