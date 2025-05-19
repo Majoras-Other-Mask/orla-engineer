@@ -35,16 +35,16 @@ export function Header() {
   const isBlogPage = pathname.startsWith('/blog')
 
   return (
-    <header className="mb-4 flex items-center justify-between">
-      <div>
+    <header className="mb-4 flex items-start justify-between">
+      <div className="flex-1 min-w-0">
         <Link href="/" className="text-3xl font-medium text-black dark:text-white">
           Orla Gotthelf
         </Link>
         
         {!isBlogPage && (
-          <div>
+          <div className="min-w-0">
             <TextLoop 
-              className="text-3xl font-medium text-black dark:text-white"
+              className="text-3xl font-medium text-black dark:text-white block min-h-[2.25rem]"
               interval={4}  // Increase from default 2 to 4 seconds
               transition={{ duration: 0.8 }}  // Increase from 0.3 to 0.8 seconds
               >
@@ -58,7 +58,7 @@ export function Header() {
         )}
       </div>
 
-      <div>
+      <div className="flex-shrink-0 ml-4">
         {isBlogPage ? (
           <ReturnToPortfolioButton />
         ) : (

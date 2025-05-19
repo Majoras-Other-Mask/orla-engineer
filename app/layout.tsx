@@ -14,7 +14,7 @@ export const viewport: Viewport = {
 export const metadata: Metadata = {
   title: 'Orla Gotthelf | Engineer',
   description:
-    'Mechanical Engineer | Robotics & Mechatronics Specialist | Experienced in R&D, Control Systems, Python, and Engineering Education',
+    'Mechanical Engineer | Experienced in R&D, Control Systems, Python, and Engineering Education',
 }
 
 const geist = Geist({

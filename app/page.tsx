@@ -35,6 +35,8 @@ import {
   AccordionContent 
 } from '@/components/motion-primitives/accordion'
 
+import { BorderTrail } from '@/components/motion-primitives/border-trail'
+
 // Define Project type to match your data structure
 type Project = {
   name: string
@@ -83,17 +85,19 @@ function ProjectCard({ project }: { project: Project }) {
         }}
         className='flex max-w-[270px] flex-col overflow-hidden border border-zinc-950/10 bg-white dark:border-zinc-50/10 dark:bg-zinc-900'
       >
-        <MorphingDialogImage
-          src= {project.image}
-          alt={project.name}
-          className="h-full w-full object-cover"
-        />
+        <div className="w-full aspect-square overflow-hidden">
+          <MorphingDialogImage
+            src={project.image}
+            alt={project.name}
+            className="object-cover w-full h-full"
+          />
+        </div>
         <div className='flex grow flex-row items-end justify-between px-3 py-2'>
           <div className="flex flex-col">
             <MorphingDialogTitle className='text-zinc-950 dark:text-zinc-50'>
               {project.name}
             </MorphingDialogTitle>
-            <MorphingDialogSubtitle className="line-clamp-1 text-xs text-zinc-500 dark:text-zinc-400">
+            <MorphingDialogSubtitle className="text-xs text-gray-300 line-clamp-1">
               {project.description.substring(0, 60)}...
             </MorphingDialogSubtitle>
           </div>
@@ -111,19 +115,21 @@ function ProjectCard({ project }: { project: Project }) {
           style={{
             borderRadius: '24px',
           }}
-          className="relative max-w-4xl rounded-2xl bg-white p-6 ring-1 ring-inset ring-zinc-200/50 dark:bg-zinc-900 dark:ring-zinc-800/50"
+          className="relative max-w-4xl rounded-2xl bg-white p-6 dark:bg-zinc-900 ring-1 ring-zinc-200/50 ring-inset dark:ring-zinc-800/50"
         >
-          <div className="grid grid-cols-1 gap-6 md:grid-cols-2">
-            <MorphingDialogImage
-              src={project.image}
-              alt={project.name}
-              className="h-full w-full"
-            />
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+            <div className="w-full aspect-square overflow-hidden rounded-lg">
+              <MorphingDialogImage
+                src={project.image}
+                alt={project.name}
+                className="object-cover w-full h-full"
+              />
+            </div>
             <div className='p-6'>
               <MorphingDialogTitle className='text-2xl text-zinc-950 dark:text-zinc-50'>
                 {project.name}
               </MorphingDialogTitle>
-              <MorphingDialogSubtitle className='text-zinc-500 dark:text-zinc-400'>
+              <MorphingDialogSubtitle className='text-zinc-700 dark:text-zinc-400'>
                 Research Project
               </MorphingDialogSubtitle>
               <MorphingDialogDescription
@@ -134,7 +140,7 @@ function ProjectCard({ project }: { project: Project }) {
                   exit: { opacity: 0, scale: 0.8, y: 100 },
                 }}
               >
-                <p className="mt-2 text-zinc-600 dark:text-zinc-400">
+                <p className="mt-2 text-zinc-500 dark:text-zinc-500">
                   {project.description}
                 </p>
               
@@ -145,7 +151,7 @@ function ProjectCard({ project }: { project: Project }) {
                 href={project.link}
                 target="_blank"
                 rel="noopener noreferrer"
-                className="inline-flex items-center rounded-md bg-zinc-900 px-4 py-2 text-white transition-colors hover:bg-zinc-800 dark:bg-zinc-700 dark:hover:bg-zinc-600"
+                className="inline-flex items-center px-4 py-2 rounded-md bg-zinc-900 text-white dark:bg-zinc-700 hover:bg-zinc-800 dark:hover:bg-zinc-600 transition-colors"
               >
                 Visit Project
                 <svg
@@ -207,7 +213,7 @@ function WorkExperienceSection() {
       }}
       transition={{ duration: 0.3 }}
     >
-      <h3 className="mb-5 text-2xl font-medium text-zinc-950 dark:text-zinc-50">Work Experience</h3>
+      <h3 className="mb-5 text-2xl font-medium text-zinc-950 dark:text-zinc-50">Selected Work Experience</h3>
       <Accordion 
         className="flex flex-col divide-y divide-zinc-200 dark:divide-zinc-700 space-y-2"
         transition={{ duration: 0.2, ease: 'easeInOut' }}
@@ -314,7 +320,7 @@ function BlogPostsSection() {
       }}
       transition={{ duration: 0.3 }}
     >
-      <h3 className="mb-5 text-2xl font-medium text-zinc-950 dark:text-zinc-50">Musings</h3>
+      <h3 className="mb-5 text-2xl font-medium text-zinc-950 dark:text-zinc-50"></h3>
       <div className="space-y-4">
         {BLOG_POSTS.map((post) => (
           <article
@@ -402,7 +408,7 @@ function UnderConstructionNotice() {
 export default function Personal() {
   return (
     <motion.main
-      className="space-y-24"
+      className="space-y-10"
       variants={{
         hidden: { opacity: 0 },
         visible: {
@@ -422,14 +428,20 @@ export default function Personal() {
         }}
         transition={{ duration: 0.3 }}
       >
-        <div className="flex-1">
-          <p className="text-zinc-600 dark:text-zinc-400">
-          I build systems that move — and solve the tough problems that make them move well. 
-          With a Ph.D. in Mechanical Engineering, my work bridges robotics, control, and design across industry and academia.
-          </p>
+      <div className="flex-1">            
+        <div className="rounded-md border-1 border-[#E1B5B5] bg-white dark:border-[#D4A5A5] dark:bg-zinc-950 p-2">
+          <div className='text-zinc-600 dark:text-zinc-400'>
+            I'm an engineer, educator, and researcher who loves building things, breaking things, and fixing things. 
+          </div>
         </div>
+      </div>
+      <div className="flex-1">
+        <div className="mt-4 text-zinc-600 dark:text-zinc-400">
+          With a Ph.D. in Mechanical Engineering and a background that bridges robotics, control systems, mechatronics, and medical devices, I've led R&D projects from early-stage concepts to testable, real-world prototypes. My journey has spanned industry and academia: I've developed soft and hard robotic systems for medical applications, taught university-level courses in dynamics and machine design, and collaborated on interdisciplinary teams across engineering, healthcare, and data science.
+        </div>
+      </div>
 
-        <UnderConstructionNotice />
+      {/*<UnderConstructionNotice />*/}
       
       </motion.section>
 
@@ -437,8 +449,8 @@ export default function Personal() {
 
       <WorkExperienceSection />
 
-      <BlogPostsSection />
-
+      {/*<BlogPostsSection />*/}
+      
       <motion.section
         variants={{
           hidden: { opacity: 0, y: 20, filter: 'blur(8px)' },
@@ -454,6 +466,7 @@ export default function Personal() {
           </a>
         </p>
         <div className="flex items-center justify-start space-x-3">
+          <span className="text-zinc-600 dark:text-zinc-400">Or connect with me on</span>
           {SOCIAL_LINKS.map((link) => (
             <Magnetic key={link.label} springOptions={{ bounce: 0 }} intensity={0.3}>
               <a
@@ -474,7 +487,7 @@ export default function Personal() {
                     fill="currentColor"
                     fillRule="evenodd"
                     clipRule="evenodd"
-                  ></path>
+                  />
                 </svg>
               </a>
             </Magnetic>
